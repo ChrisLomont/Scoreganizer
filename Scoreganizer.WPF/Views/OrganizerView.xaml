@@ -1,0 +1,88 @@
+﻿<views:MvxWpfView
+    x:Class="Lomont.Scoreganizer.WPF.Views.OrganizerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="800" d:DesignWidth="700">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Command="{Binding ViewSongsCommand}">Back to songs</Button>
+            <TextBlock>Organize files into songs</TextBlock>
+        </StackPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <GroupBox DockPanel.Dock="Left" Width="300" Header="Song">
+                <UniformGrid Columns="2">
+                    <TextBlock>Song title</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.Title, Mode=TwoWay}"/>
+                    <TextBlock>Song artist</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.Artist}"/>
+                    <TextBlock>Song year</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.Year}"/>
+                    <TextBlock>Song genre</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.Genre}"/>
+                    <TextBlock>Song beats per minute</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.BeatsPerMinute}"/>
+                    <TextBlock>Song play counter</TextBlock>
+                    <TextBox Text="{Binding SelectedSong.PlayCounter}"/>
+                    <TextBlock>TODO - more</TextBlock>
+                    <TextBlock>TODO - more</TextBlock>
+                </UniformGrid>
+
+            </GroupBox>
+            <ListBox ItemsSource="{Binding Messages}" Height="200"></ListBox>
+        </DockPanel>
+        <UniformGrid Columns="2">
+            <GroupBox >
+                <GroupBox.Header>
+                    <TextBlock Text="{Binding Songs.Count, StringFormat={}{0} songs}"/>
+                </GroupBox.Header>
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="Bottom" Columns="5">
+                        <TextBox ToolTip="Title" Text="{Binding SongName}"/>
+                        <Button Command="{Binding AddSongCommand}">Add</Button>
+                        <Button Command="{Binding DeleteSongCommand}">Delete</Button>
+                        <Button Command="{Binding SaveSongsCommand}">Save</Button>
+                        <Button Command="{Binding LoadSongsCommand}">Load</Button>
+                    </UniformGrid>
+                    <ListBox ItemsSource="{Binding Songs}" SelectedItem="{Binding SelectedSong}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Expander IsExpanded="false" Header="{Binding}"><ListBox ItemsSource="{Binding Files}"></ListBox></Expander>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox >
+                <GroupBox.Header>
+                    <TextBlock Text="{Binding Files.Count, StringFormat={}{0} files}"/>
+                </GroupBox.Header>
+                <DockPanel>
+                    <UniformGrid DockPanel.Dock="Bottom" Columns="4">
+                        <Button Command="{Binding ScanFilesCommand}">Scan Files</Button>
+                        <Button Command="{Binding AddToSongCommand}">Add to song</Button>
+                        <Button Command="{Binding RemoveFromSongCommand}">Remove from song</Button>
+                        <Button Command="{Binding MatchFilesCommand}">Compute matches</Button>
+                    </UniformGrid>
+                    <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock ToolTip="{Binding FileData.Hash}">
+                                    <TextBlock.Text>
+                                        <MultiBinding  StringFormat="{}({0}) {1}">
+                                            <Binding Path="UseCount"/>
+                                            <Binding Path="FileData.Filename"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </GroupBox>
+        </UniformGrid>
+    </DockPanel>
+</views:MvxWpfView>

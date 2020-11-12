@@ -1,0 +1,40 @@
+
+
+TODO
+*  1. play music while viewing notes
+*  2. order songs
+*  3. enter base path, save local machine
+*  4. auto load on start
+*  5. set last viewed date
+*  6. track viewed count (and history? Sure)
+*  7. track viewed time on screen
+  8. track moved files, reattach
+*  9. play audio
+* 10. play video
+ 11. load last view on start prog
+ 12. auto save stuff
+ 13. sort  filter views by author/name/genre/ etc..
+ 14. Multiselect on organize page
+ 15. drag & drop on organize page
+* 16. drag and drop on songs page
+ 17. save and restore filter types for PDF viewing
+ 18. integrate musescore
+ 19. better navigation between views
+ 20. work on pdf view - make clean, hidden tap to get controls
+ 21. play music on song select
+* 22. options/settings view
+ 23. edit default view/song/audio etc., when multiple items present (first one now default)
+ 24. include/exclude filters, ';' delimited, search title, author, genre, etc
+ 25. show missing entries to help add entries
+ 26. quick entry editing with multiselect
+ 27. Genre editing more robust
+ 28. Show missing/unattached/moved files, make editor to clean that up
+* 29. Simple song up/song down for initial editing
+ 30. Slow song down, fix freq while doing so 
+ 31. Midi import
+ 32. Quiz mode - show notes, midi must play, chords, other stuff to practice
+ 33. guitar hero type practice
+* 34. Integrate drag+drop from https://github.com/punker76/gong-wpf-dragdrop
+
+
+END OF FILE

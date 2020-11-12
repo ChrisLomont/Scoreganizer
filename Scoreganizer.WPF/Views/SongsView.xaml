@@ -1,0 +1,130 @@
+﻿<views:MvxWpfView
+    x:Class="Lomont.Scoreganizer.WPF.Views.SongsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views1="clr-namespace:Lomont.Scoreganizer.WPF.Views"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    mc:Ignorable="d"
+    d:DesignHeight="800" d:DesignWidth="700">
+    <!--<views:MvxWpfView.Resources>
+        <views1:BitmapConverter x:Key="BitmapConverter"/>
+    </views:MvxWpfView.Resources>-->
+
+    <DockPanel Background="Black">
+        <DockPanel.Resources>
+            <views1:SongImageConverter x:Key="SongImageConverter"/>
+        </DockPanel.Resources>
+        <Expander DockPanel.Dock="Top" ExpandDirection="Right" >
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <UniformGrid Columns="6">
+                    <TextBlock Text="Select song to play" Foreground="White" Margin="5"/>
+                    <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewPdfCommand}" >Play</Button>
+                    <Button Width="100" Command="{Binding ViewOptionsCommand}">Options</Button>
+                    <Button Width="100" Command="{Binding ViewOrganizerCommand}">Organize</Button>
+                    <Button Width="100" Command="{Binding MoveUpCommand}">Move up</Button>
+                    <Button Width="100" Command="{Binding MoveDownCommand}">Move down</Button>
+                </UniformGrid>
+                <Button Width="100" Margin="100,0,0,0" Command="{Binding ExitAppCommand}">Exit app</Button>
+            </StackPanel>
+        </Expander>
+
+        <ListBox 
+                Background="Transparent"
+                x:Name="SongsContainer" 
+                ItemsSource="{Binding Songs}"
+                SelectedItem="{Binding SelectedSong}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.DropHandler="{Binding}"
+                >
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Margin="3"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <!--Double click handler
+                https://stackoverflow.com/questions/2547442/wpf-listboxitem-double-click-->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border 
+                            Width="125" 
+                            Height="145" 
+                            BorderThickness="2" 
+                            BorderBrush="DarkGray" 
+                            CornerRadius="3"
+                            Background="Gray"
+                            >
+                        <!--<Border.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DoubleClickCommand}"
+                                          />
+                        </Border.InputBindings>-->
+
+                        <Grid>
+                            <!--<Grid.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SongClickCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
+                            </Grid.InputBindings>-->
+                            <Image 
+                                    Source="{Binding ., Converter={StaticResource SongImageConverter}}" 
+                                    Stretch="Uniform"
+                                />
+                            <Border Width="110" BorderBrush="BlanchedAlmond" CornerRadius="3" 
+                                >
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.3" Color="Black"/>
+                                </Border.Background>
+                                <DockPanel>
+                                    <Border DockPanel.Dock="Top"
+                                        Background="#A04F4F4F"
+                                        >
+                                        <TextBlock 
+                                Text="{Binding Title}" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                TextWrapping="Wrap"
+                                Foreground="White"
+                            />
+                                    </Border>
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                                        <TextBlock Text="{Binding PlayCounter}"
+                                                   Margin="0,0,10,0"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"
+                                               FontSize="10"
+                                               TextWrapping="Wrap"
+                                               Foreground="Yellow"
+                                    />
+                                        <TextBlock Text="{Binding LastPlayDate}"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"
+                                               FontSize="10"
+                                               TextWrapping="Wrap"
+                                               Foreground="GreenYellow"
+                                               />
+                                    </StackPanel>
+                                    <Canvas/>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</views:MvxWpfView>
