@@ -8,8 +8,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scoreganizer.WPF", "Scoreganizer.WPF\Scoreganizer.WPF.csproj", "{EA3C2197-35B5-48C8-AE46-AF99CDF8144A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7953E4FC-6F73-4E64-8591-B9B0B26982FF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{839E0AE5-C790-43E5-9293-2828C44AD718}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\TODO.txt = Docs\TODO.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
