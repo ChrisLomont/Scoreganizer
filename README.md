@@ -44,7 +44,7 @@ Build with Visual Studio (I used 2019).
 
 Songs are named according to the edits in the Organize page. They get the first image in the associated files. 
 
-![Song1](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\songs1.png)
+![Song1](Docs\songs1.png)
 
 
 
@@ -52,7 +52,7 @@ Songs are named according to the edits in the Organize page. They get the first 
 
 Options show where to get all the song files. It is also where the system settings get stored.
 
-![Options](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\options.png)
+![Options](Docs\options.png)
 
 
 
@@ -60,7 +60,7 @@ Options show where to get all the song files. It is also where the system settin
 
 Organize is where you create Songs, and can edit metadata and add files to each Song.
 
-![Organize](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\organize.png)
+![Organize](Docs\organize.png)
 
 
 
@@ -68,19 +68,19 @@ Organize is where you create Songs, and can edit metadata and add files to each 
 
 The Play Page is where you can view the sheet music for playback.
 
-![Play](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\play1.png)
+![Play](Docs\play1.png)
 
 
 
 Here is the play page with a video playing of the song.
 
-![Play](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\play3.png)
+![Play](Docs\play3.png)
 
 
 
 The view can be modified in a few ways from the drop down menu at the top. Here is inverted rendering.
 
-![Play](C:\Users\Chris\OneDrive\Code\Scoreganizer\Docs\play4.png)
+![Play](Docs\play4.png)
 
 
 
