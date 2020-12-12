@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Lomont.Scoreganizer.Core.Model;
@@ -278,9 +279,19 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
                 if (filtered)
                 {
+                    Stopwatch s = Stopwatch.StartNew();
                     bmp = ImageFilters.ToBlackAndWhite(bmp);
+                    var t1 = s.ElapsedTicks;
                     bmp = ImageFilters.Sharpen(bmp);
+                    var t2 = s.ElapsedTicks;
                     bmp = ImageFilters.Stretch(bmp);
+                    var t3 = s.ElapsedTicks;
+                    s.Stop();
+                    var ms1 = t1 * 1000.0 / Stopwatch.Frequency;
+                    var ms2 = (t2-t1) * 1000.0 / Stopwatch.Frequency;
+                    var ms3 = (t3-t2) * 1000.0 / Stopwatch.Frequency;
+                    var ms = t3 * 1000.0 / Stopwatch.Frequency;
+                    Trace.WriteLine($"Image {ms:F3} ms: BW {ms1:F3}, Sharp {ms2:F3}, Stretch {ms3:F3}");
                 }
 
                 if (colorized)

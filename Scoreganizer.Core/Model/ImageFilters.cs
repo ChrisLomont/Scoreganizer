@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Lomont.Scoreganizer.Core.Model
 {
@@ -32,42 +33,46 @@ namespace Lomont.Scoreganizer.Core.Model
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            // Set every third value to 255. A 24bpp bitmap will look red.  
-            //for (int counter = 2; counter < rgbValues.Length; counter += 3)
-            //    rgbValues[counter] = 255;
             processAction(rgbValues, w, h, stride);
 
             // Copy the RGB values back to the bitmap
             System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
 
-
             bmp.UnlockBits(data);
             return bmp;
 
         }
+
+
+        static void BWHelp(byte[] pixels, int w, int h, int stride)
+
+        {
+            Parallel.For(0, h, j =>
+            {
+                //for (var j = 0; j < h; ++j)
+                for (var i = 0; i < w; ++i)
+                {
+                    var index = stride * j + i * 3;
+                    var b = pixels[index];
+                    var g = pixels[index + 1];
+                    var r = pixels[index + 2];
+                    // 
+                    var c = (byte)(0.21 * r + 0.72 * g + 0.07 * b);
+                    //if (c > 192) 
+                    //    c = 255;
+                    //else 
+                    //    c = 0;
+                    pixels[index] = c;
+                    pixels[index + 1] = c;
+                    pixels[index + 2] = c;
+                }
+            });
+
+        }
+
         public static Bitmap ToBlackAndWhite(Bitmap bmp)
         {
-            return Process(bmp, (pixels, w, h, stride) =>
-                {
-                    for (var j = 0; j < h; ++j)
-                    for (var i = 0; i < w; ++i)
-                    {
-                        var index = stride * j + i*3;
-                        var b = pixels[index];
-                        var g = pixels[index+1];
-                        var r = pixels[index+2];
-                        // 
-                        var c = (byte)(0.21 * r + 0.72 * g + 0.07 * b);
-                        //if (c > 192) 
-                        //    c = 255;
-                        //else 
-                        //    c = 0;
-                        pixels[index] = c;
-                        pixels[index + 1] = c;
-                        pixels[index + 2] = c;
-                    }
-                }
-            );
+            return Process(bmp, BWHelp);
         }
 
         static void Convolve(byte [] pixels, int w, int h, int stride, double[,] kernel)
@@ -78,39 +83,42 @@ namespace Lomont.Scoreganizer.Core.Model
             var kw = kernel.GetLength(0);
             var kh = kernel.GetLength(1);
 
-            for (var j = 0; j < h; ++j)
-            for (var i = 0; i < w; ++i)
+            Parallel.For(0,h, j =>
             {
-
-                double rd = 0.0, gd = 0.0, bd = 0.0;
-                for (var kj = 0; kj < kh; ++kj)
-                for (var ki = 0; ki < kw; ++ki)
+                //for (var j = 0; j < h; ++j)
+                for (var i = 0; i < w; ++i)
                 {
-                    // source coords
-                    var si = (i + ki -kw/2 + w) % w;
-                    var sj = (j + kj -kh/2 + h) % h;
 
-                    var ind = sj * stride + si * 3;
+                    double rd = 0.0, gd = 0.0, bd = 0.0;
+                    for (var kj = 0; kj < kh; ++kj)
+                    for (var ki = 0; ki < kw; ++ki)
+                    {
+                        // source coords
+                        var si = (i + ki - kw / 2 + w) % w;
+                        var sj = (j + kj - kh / 2 + h) % h;
 
-                    var b = src[ind];
-                    var g = src[ind + 1];
-                    var r = src[ind + 2];
+                        var ind = sj * stride + si * 3;
 
-                    rd += r * kernel[ki, kj];
-                    gd += g * kernel[ki, kj];
-                    bd += b * kernel[ki, kj];
-                }
+                        var b = src[ind];
+                        var g = src[ind + 1];
+                        var r = src[ind + 2];
 
-                rd = Clamp(rd,0,255);
-                gd = Clamp(gd, 0, 255);
-                bd = Clamp(bd, 0, 255);
+                        rd += r * kernel[ki, kj];
+                        gd += g * kernel[ki, kj];
+                        bd += b * kernel[ki, kj];
+                    }
+
+                    rd = Clamp(rd, 0, 255);
+                    gd = Clamp(gd, 0, 255);
+                    bd = Clamp(bd, 0, 255);
 
 
                     var index = stride * j + i * 3;
-                pixels[index] = (byte)bd;
-                pixels[index + 1] = (byte)gd;
-                pixels[index + 2] = (byte)rd;
-            }
+                    pixels[index] = (byte) bd;
+                    pixels[index + 1] = (byte) gd;
+                    pixels[index + 2] = (byte) rd;
+                }
+            });
         }
 
 
@@ -149,7 +157,7 @@ namespace Lomont.Scoreganizer.Core.Model
         }
 
         /// <summary>
-        /// Apply map to each channel, eacn in 0-1
+        /// Apply map to each channel, each in 0-1
         /// </summary>
         /// <param name="pixels"></param>
         /// <param name="w"></param>
@@ -158,18 +166,21 @@ namespace Lomont.Scoreganizer.Core.Model
         /// <param name="map"></param>
         static void Apply(byte [] pixels, int w, int h, int stride, Func<double,double> map )
         {
-            for (var j = 0; j < h; ++j)
-            for (var i = 0; i < w; ++i)
+            Parallel.For(0, h, j =>
             {
-                var index = stride * j + i * 3;
-                var b = pixels[index];
-                var g = pixels[index + 1];
-                var r = pixels[index + 2];
-                
-                pixels[index] = Do(b);
-                pixels[index + 1] = Do(g);
-                pixels[index + 2] = Do(r);
-            }
+                //for (var j = 0; j < h; ++j)
+                for (var i = 0; i < w; ++i)
+                {
+                    var index = stride * j + i * 3;
+                    var b = pixels[index];
+                    var g = pixels[index + 1];
+                    var r = pixels[index + 2];
+
+                    pixels[index] = Do(b);
+                    pixels[index + 1] = Do(g);
+                    pixels[index + 2] = Do(r);
+                }
+            });
 
             byte Do(byte v1)
             {
@@ -263,20 +274,23 @@ namespace Lomont.Scoreganizer.Core.Model
         {
             return Process(bmp, (pixels, w, h, stride) =>
             {
-                for (var j = 0; j < h; ++j)
-                for (var i = 0; i < w; ++i)
+                Parallel.For(0, h, j =>
                 {
-                    var index = stride * j + i * 3;
-                    var b = pixels[index];
-                    var g = pixels[index + 1];
-                    var r = pixels[index + 2];
+                    //for (var j = 0; j < h; ++j)
+                    for (var i = 0; i < w; ++i)
+                    {
+                        var index = stride * j + i * 3;
+                        var b = pixels[index];
+                        var g = pixels[index + 1];
+                        var r = pixels[index + 2];
 
-                    (r,g,b) = Colorize(r,g,b,(double)i/(w-1),(double)j/(h-1));
+                        (r, g, b) = Colorize(r, g, b, (double) i / (w - 1), (double) j / (h - 1));
 
-                    pixels[index] = b;
-                    pixels[index + 1] = g;
-                    pixels[index + 2] = r;
-                }
+                        pixels[index] = b;
+                        pixels[index + 1] = g;
+                        pixels[index + 2] = r;
+                    }
+                });
             });
 
         }

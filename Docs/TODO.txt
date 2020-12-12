@@ -53,10 +53,10 @@ X = canceled or now irrelevant
 48. can crash if two parts of code trying to access scoreganizer save file at the same time
 49. JSON file save format
 50. better fullscreen use, max/min, always on top, etc..
-51. add ref to Font Awesome for intreface SVGs per their license
+51. add ref to Font Awesome for interface SVGs per their license
 52. minimal playback interface button (hides all UI, just touch spots)
 * 53. load images small to conserve memory (mem went from 2GB to 300MB)
-54. parallelize filters to speed up render
+* 54. parallelize filters to speed up render
 
 
 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pencil-ruler" class="svg-inline--fa fa-pencil-ruler fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M109.46 244.04l134.58-134.56-44.12-44.12-61.68 61.68a7.919 7.919 0 0 1-11.21 0l-11.21-11.21c-3.1-3.1-3.1-8.12 0-11.21l61.68-61.68-33.64-33.65C131.47-3.1 111.39-3.1 99 9.29L9.29 99c-12.38 12.39-12.39 32.47 0 44.86l100.17 100.18zm388.47-116.8c18.76-18.76 18.75-49.17 0-67.93l-45.25-45.25c-18.76-18.76-49.18-18.76-67.95 0l-46.02 46.01 113.2 113.2 46.02-46.03zM316.08 82.71l-297 296.96L.32 487.11c-2.53 14.49 10.09 27.11 24.59 24.56l107.45-18.84L429.28 195.9 316.08 82.71zm186.63 285.43l-33.64-33.64-61.68 61.68c-3.1 3.1-8.12 3.1-11.21 0l-11.21-11.21c-3.09-3.1-3.09-8.12 0-11.21l61.68-61.68-44.14-44.14L267.93 402.5l100.21 100.2c12.39 12.39 32.47 12.39 44.86 0l89.71-89.7c12.39-12.39 12.39-32.47 0-44.86z"></path></svg>
@@ -66,5 +66,50 @@ X = canceled or now irrelevant
 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg>
 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path></svg>
 <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="file-audio" class="svg-inline--fa fa-file-audio fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M369.941 97.941l-83.882-83.882A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v416c0 26.51 21.49 48 48 48h288c26.51 0 48-21.49 48-48V131.882a48 48 0 0 0-14.059-33.941zM332.118 128H256V51.882L332.118 128zM48 464V48h160v104c0 13.255 10.745 24 24 24h104v288H48zm144-76.024c0 10.691-12.926 16.045-20.485 8.485L136 360.486h-28c-6.627 0-12-5.373-12-12v-56c0-6.627 5.373-12 12-12h28l35.515-36.947c7.56-7.56 20.485-2.206 20.485 8.485v135.952zm41.201-47.13c9.051-9.297 9.06-24.133.001-33.439-22.149-22.752 12.235-56.246 34.395-33.481 27.198 27.94 27.212 72.444.001 100.401-21.793 22.386-56.947-10.315-34.397-33.481z"></path></svg>
+
+Release, Filter Dream of the Forgotten child, pre parallelize
+Image 568.587 ms: BW 42.451, Sharp 215.798, Stretch 310.337
+Image 516.510 ms: BW 45.544, Sharp 199.726, Stretch 271.240
+Image 503.994 ms: BW 37.389, Sharp 199.408, Stretch 267.198
+Image 524.086 ms: BW 36.553, Sharp 220.674, Stretch 266.859
+Image 510.221 ms: BW 38.713, Sharp 204.957, Stretch 266.551
+Image 505.998 ms: BW 36.730, Sharp 204.327, Stretch 264.941
+Image 511.813 ms: BW 35.856, Sharp 200.276, Stretch 275.681
+Image 542.187 ms: BW 37.472, Sharp 220.187, Stretch 284.527
+Image 510.750 ms: BW 37.460, Sharp 206.878, Stretch 266.413
+
+Step1 Parallel.For on Stretch:
+Image 321.125 ms: BW 43.029, Sharp 206.686, Stretch 71.411
+Image 369.830 ms: BW 44.257, Sharp 199.365, Stretch 126.208
+Image 283.116 ms: BW 38.147, Sharp 201.885, Stretch 43.084
+Image 279.046 ms: BW 36.660, Sharp 199.057, Stretch 43.329
+Image 293.435 ms: BW 38.656, Sharp 216.007, Stretch 38.772
+Image 297.670 ms: BW 36.240, Sharp 197.953, Stretch 63.476
+Image 276.349 ms: BW 36.346, Sharp 199.323, Stretch 40.680
+Image 278.120 ms: BW 37.373, Sharp 200.408, Stretch 40.339
+Image 291.464 ms: BW 43.984, Sharp 204.261, Stretch 43.219
+
+Step2: Parallel.For on Sharp
+Image 138.658 ms: BW 42.787, Sharp 48.329, Stretch 47.542
+Image 139.692 ms: BW 42.223, Sharp 42.792, Stretch 54.676
+Image 118.722 ms: BW 38.530, Sharp 35.918, Stretch 44.274
+Image 114.057 ms: BW 39.678, Sharp 34.128, Stretch 40.251
+Image 161.421 ms: BW 36.970, Sharp 34.411, Stretch 90.040
+Image 129.434 ms: BW 39.721, Sharp 34.934, Stretch 54.779
+Image 111.928 ms: BW 36.781, Sharp 34.641, Stretch 40.505
+Image 111.875 ms: BW 37.309, Sharp 34.543, Stretch 40.023
+Image 112.133 ms: BW 37.440, Sharp 35.900, Stretch 38.793
+
+Step3: Parallel.For on BW, done (no change, why?)
+Image 136.433 ms: BW 47.460, Sharp 38.261, Stretch 50.713
+Image 121.496 ms: BW 35.888, Sharp 39.614, Stretch 45.995
+Image 118.953 ms: BW 36.434, Sharp 39.276, Stretch 43.243
+Image 108.096 ms: BW 32.863, Sharp 34.550, Stretch 40.684
+Image 106.641 ms: BW 31.510, Sharp 33.319, Stretch 41.812
+Image 126.829 ms: BW 33.137, Sharp 40.652, Stretch 53.040
+Image 107.988 ms: BW 31.344, Sharp 38.348, Stretch 38.296
+Image 108.537 ms: BW 32.484, Sharp 34.896, Stretch 41.157
+Image 112.722 ms: BW 32.418, Sharp 42.853, Stretch 37.451
+
 
 END OF FILE
