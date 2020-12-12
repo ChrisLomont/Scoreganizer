@@ -23,7 +23,21 @@ namespace Lomont.Scoreganizer.WPF.Views
                 {
                     if (IsImageFilename(f.Filename))
                     {
-                        var img = BitmapConverter.BitmapToBitmapImage(new Bitmap(f.Filename));
+                        // load image
+                        var bmp = new Bitmap(f.Filename);
+
+                        // resize
+                        int w = bmp.Width, h = bmp.Height;
+                        var mx = Math.Max(w, h);
+                        var sz = 200; // desired max size
+                        w = w * sz / mx;
+                        h = h * sz / mx;
+                        var result = new Bitmap(w,h);
+                        using (Graphics g = Graphics.FromImage(result))
+                            g.DrawImage(bmp,0,0,w,h);
+
+                        // convert for WPF
+                        var img = BitmapConverter.BitmapToBitmapImage(result);
                         sd.UIHolder = img; // cache it
                         return img;
                     }

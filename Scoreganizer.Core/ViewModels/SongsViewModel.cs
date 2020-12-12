@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Lomont.Scoreganizer.Core.Model;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-
-using System.Drawing;
-using System.IO;
-using Windows.Data.Pdf;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows;
-using System.Windows.Xps;
 
 namespace Lomont.Scoreganizer.Core.ViewModels
 {
@@ -108,10 +98,9 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         #region Drag Drop
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as SongData;
-            var targetItem = dropInfo.TargetItem as SongData;
-
-            if (sourceItem != null && targetItem != null)// && targetItem.CanAcceptChildren)
+            if (dropInfo.Data is SongData && 
+                dropInfo.TargetItem is SongData // && targetItem.CanAcceptChildren
+                )
             {
                 dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
                 dropInfo.Effects = DragDropEffects.Copy;
@@ -120,9 +109,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as SongData;
-            var targetItem = dropInfo.TargetItem as SongData;
-            if (sourceItem != null && targetItem != null)
+            if (dropInfo.Data is SongData sourceItem && dropInfo.TargetItem is SongData targetItem)
             {
                 var targetIndex = Songs.IndexOf(targetItem);
                 Songs.Remove(sourceItem);
