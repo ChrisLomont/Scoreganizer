@@ -12,13 +12,21 @@ namespace Lomont.Scoreganizer.WPF.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
             if (value is SongData sd)
             {
+                if (sd.UIHolder != null)
+                    return sd.UIHolder;
+
                 // see if there is an image
                 foreach (var f in sd.Files)
                 {
                     if (IsImageFilename(f.Filename))
-                        return BitmapConverter.BitmapToBitmapImage(new Bitmap(f.Filename));
+                    {
+                        var img = BitmapConverter.BitmapToBitmapImage(new Bitmap(f.Filename));
+                        sd.UIHolder = img; // cache it
+                        return img;
+                    }
                 }
             }
             return null;

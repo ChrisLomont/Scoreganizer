@@ -72,6 +72,9 @@ namespace Lomont.Scoreganizer.Core.Model
                     outfile.WriteLine($"EndPlayDate: {ed:o}");
 
                 outfile.WriteLine($"BeatsPerMinute: {song.BeatsPerMinute}");
+                outfile.WriteLine($"SelectedMedia: {song.SelectedMedia}");
+                outfile.WriteLine($"PageToView: {song.PageToView}");
+                outfile.WriteLine($"ViewStyle: {song.ViewStyle}");
             }
 
             outfile.WriteLine("End:"); // end of file
@@ -223,7 +226,11 @@ namespace Lomont.Scoreganizer.Core.Model
                     CheckInt("PlayCounter", n => song.PlayCounter = n) ||
                     CheckInt("Rating", n => song.Rating = n) ||
                     CheckInt("BeatsPerMinute", n => song.BeatsPerMinute = n) ||
-                    CheckEnd()
+
+                    CheckString("SelectedMedia", p => song.SelectedMedia = p) ||
+                    CheckString("ViewStyle", p => song.ViewStyle = p) ||
+                    CheckInt("PageToView", n => song.PageToView = n) ||
+                CheckEnd()
                 )
                 {
                     // ok

@@ -1,5 +1,8 @@
 
 TODO
+* = done
+X = canceled or now irrelevant
+
 *  1. play music while viewing notes
 *  2. order songs
 *  3. enter base path, save local machine
@@ -12,11 +15,11 @@ TODO
 * 10. play video
  11. load last view on start prog
  12. auto save stuff
- 13. sort  filter views by author/name/genre/ etc..
+ 13. sort filter views by author/name/genre/ etc..
  14. Multiselect on organize page
  15. drag & drop on organize page
 * 16. drag and drop on songs page
- 17. save and restore filter types for PDF viewing
+* 17. save and restore filter types for PDF viewing
  18. integrate musescore
  19. better navigation between views
  20. work on pdf view - make clean, hidden tap to get controls
@@ -36,17 +39,17 @@ TODO
 * 34. Integrate drag+drop from https://github.com/punker76/gong-wpf-dragdrop
 35. On first start, go to options page, ask for path to music library
 36. Most recently used songs easily and quickly accessible from play page
-37. save more settings per song - such as playback stuff and options, what page on, etc.
-38. Many speed increases - especially slow on songs page
+* 37. save more settings per song - such as playback stuff and options, what page on, etc.
+* 38. Many speed increases - especially slow on songs page
 39. annotations as 40. most recently used jump to from play screen
 40. jump back to 1st page quickly
 41. looping audio doesnt rewind correctly
 42. quicker to play music at bottoms
 43. order media by last selected
-44. remember page of sheet music on
-45. remember draw settings
-46. remember play song file
-47. default click on song is to play go to  play screen
+* 44. remember page of sheet music on
+* 45. remember draw settings
+* 46. remember play song file
+* 47. default click on song is to play go to  play screen
 48. can crash if two parts of code trying to access scoreganizer save file at the same time
 
 

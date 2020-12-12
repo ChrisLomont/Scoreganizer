@@ -98,5 +98,8 @@ namespace Lomont.Scoreganizer.Core.Model
         {
             return $"{Title} ({Files.Count})";
         }
+
+        // let's UI cache things here
+        public object UIHolder = null;
     }
 }
