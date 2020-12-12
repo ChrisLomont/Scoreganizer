@@ -13,23 +13,10 @@
         <views1:BitmapConverter x:Key="BitmapConverter"/>
     </views:MvxWpfView.Resources>-->
 
-    <DockPanel Background="Black">
-        <DockPanel.Resources>
+    <Grid Background="Black" >
+        <Grid.Resources>
             <views1:SongImageConverter x:Key="SongImageConverter"/>
-        </DockPanel.Resources>
-        <Expander DockPanel.Dock="Top" ExpandDirection="Right" >
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <UniformGrid Columns="6">
-                    <TextBlock Text="Select song to play" Foreground="White" Margin="5"/>
-                    <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewSheetMusicCommand}" >Play</Button>
-                    <Button Width="100" Command="{Binding ViewOptionsCommand}">Options</Button>
-                    <Button Width="100" Command="{Binding ViewOrganizerCommand}">Organize</Button>
-                    <CheckBox IsChecked="{Binding PlayOnSelect}" Foreground="White">Play on select</CheckBox>
-                </UniformGrid>
-                <Button Width="100" Margin="100,0,0,0" Command="{Binding ExitAppCommand}">Exit app</Button>
-            </StackPanel>
-        </Expander>
-
+        </Grid.Resources>
         <ListBox 
                 Background="Transparent"
                 x:Name="SongsContainer" 
@@ -125,5 +112,34 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-    </DockPanel>
+
+        <Border VerticalAlignment="Top" Margin="0,30,0,0">
+            <StackPanel>
+                <ToggleButton 
+                HorizontalAlignment="Left" VerticalAlignment="Top" 
+                x:Name="controlsButton" Style="{StaticResource BlackToggleButtonStyle}"
+                Background="Black"
+                Foreground="{StaticResource DimFontColor}"
+                >
+                    <Canvas Width="32" Height="32">
+                        <Viewbox Width="32" Height="32">
+                            <Path Data="{StaticResource Hamburger}" Fill="{StaticResource DimFontColor}"/>
+                        </Viewbox>
+                    </Canvas>
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked, ElementName=controlsButton}" StaysOpen="False" VerticalAlignment="Top">
+                    <StackPanel Background="Black" Orientation="Horizontal" VerticalAlignment="Top">
+                        <UniformGrid Columns="6">
+                            <TextBlock Text="Select song to play" Foreground="White" Margin="5"/>
+                            <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewSheetMusicCommand}" >Play</Button>
+                            <Button Width="100" Command="{Binding ViewOptionsCommand}">Options</Button>
+                            <Button Width="100" Command="{Binding ViewOrganizerCommand}">Organize</Button>
+                            <CheckBox IsChecked="{Binding PlayOnSelect}" Foreground="White">Play on select</CheckBox>
+                        </UniformGrid>
+                        <Button Width="100" Margin="100,0,0,0" Command="{Binding ExitAppCommand}">Exit app</Button>
+                    </StackPanel>
+                </Popup>
+            </StackPanel>
+        </Border>
+    </Grid>
 </views:MvxWpfView>

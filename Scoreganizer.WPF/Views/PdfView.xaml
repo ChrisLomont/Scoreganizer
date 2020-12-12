@@ -22,53 +22,6 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <views1:DurationConverter x:Key="DurationConverter"/>
-        <Style x:Key="BlackButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                                BorderThickness="1"
-                                Padding="4,2" 
-                                BorderBrush="Black" 
-                                CornerRadius="3" 
-                                Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <!-- todo - merge button styles somehow -->
-        <Style x:Key="BlackToggleButtonStyle" TargetType="ToggleButton">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Name="border" 
-                                BorderThickness="1"
-                                Padding="4,2" 
-                                BorderBrush="Black" 
-                                CornerRadius="3" 
-                                Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
 
     </views:MvxWpfView.Resources>
