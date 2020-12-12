@@ -63,7 +63,9 @@
             <DockPanel >
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                     <!-- todo - go to page 1 -->
-                    <Button Style="{StaticResource BlackButtonStyle}">
+                    <Button Style="{StaticResource BlackButtonStyle}"
+                            Command="{Binding FirstPageCommand}"
+                            >
                         <Canvas Width="32" Height="32">
                             <Viewbox Width="32" Height="32">
                                 <Path Data="{StaticResource Backward}" Fill="{StaticResource DimFontColor}"/>

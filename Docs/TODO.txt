@@ -23,7 +23,7 @@ X = canceled or now irrelevant
  18. integrate musescore
  19. better navigation between views
  20. work on pdf view - make clean, hidden tap to get controls
- 21. play music on song select
+* 21. play music on song select
 * 22. options/settings view
  23. edit default view/song/audio etc., when multiple items present (first one now default)
  24. include/exclude filters, ';' delimited, search title, author, genre, etc
@@ -42,7 +42,7 @@ X = canceled or now irrelevant
 * 37. save more settings per song - such as playback stuff and options, what page on, etc.
 * 38. Many speed increases - especially slow on songs page
 39. annotations as 40. most recently used jump to from play screen
-40. jump back to 1st page quickly
+* 40. jump back to 1st page quickly
 41. looping audio doesnt rewind correctly
 42. quicker to play music at bottoms
 43. order media by last selected

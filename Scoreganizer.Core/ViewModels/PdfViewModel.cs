@@ -73,6 +73,12 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public IMvxCommand CloseCommand => new MvxCommand(SomeMethodToClose);
         public IMvxCommand NextCommand => new MvxCommand(NextPage);
         public IMvxCommand PrevCommand => new MvxCommand(PrevPage);
+        public IMvxCommand FirstPageCommand => new MvxCommand(FirstPage);
+
+        void FirstPage()
+        {
+            PageIndex = 1;
+        }
 
         void NextPage()
         {
