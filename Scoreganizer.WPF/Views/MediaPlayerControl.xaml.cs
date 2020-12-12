@@ -84,7 +84,7 @@ namespace Lomont.Scoreganizer.WPF.Views
         }
         void RewindButtonClicked(object sender, RoutedEventArgs e)
         {
-            MediaPlayer.Position = TimeSpan.Zero;
+            MediaPlayer.Position = startLoopTime; //  TimeSpan.Zero;
         }
         bool isPaused;
         void PauseButtonClicked(object sender, RoutedEventArgs e)
@@ -109,6 +109,7 @@ namespace Lomont.Scoreganizer.WPF.Views
             MediaPlayer.Play();
 
             NowPlayingText.Text = Path.GetFileName(path);
+            MediaPlayer.Position = startLoopTime;
             //MediaPlayer.CanPause
             //MediaPlayer.HasAudio
             //MediaPlayer.HasVideo

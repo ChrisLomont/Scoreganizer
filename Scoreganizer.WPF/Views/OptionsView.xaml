@@ -26,6 +26,7 @@
             <TextBlock>Default colors for things?</TextBlock>
             <TextBlock></TextBlock>
             <TextBlock>Version Number</TextBlock>
+            <TextBlock>Thanks to FontAwesome for icons https://fontawesome.com/license</TextBlock>
         </UniformGrid>
         <Grid Background="Black"/>
     </DockPanel>
