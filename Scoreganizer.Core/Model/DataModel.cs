@@ -19,6 +19,7 @@ namespace Lomont.Scoreganizer.Core.Model
 
         public MvxObservableCollection<string> Messages { get; } = new MvxObservableCollection<string>();
 
+        public MostRecentlyUsed<SongData> MostRecentlyPlayedSongs { get;  } = new MostRecentlyUsed<SongData>();
         public void AddMessage(string message)
         {
             Messages.Add(message);

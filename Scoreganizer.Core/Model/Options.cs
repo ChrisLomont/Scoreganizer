@@ -28,6 +28,10 @@ namespace Lomont.Scoreganizer.Core.Model
         /// </summary>
         public string SaveFilename { get; } = "Scoreganizer.txt";
 
+        /// <summary>
+        /// Used to track most recently played songs
+        /// </summary>
+        public int MostRecentlyPlayedSongsSize = 5;
         public Options()
         {
             Load();

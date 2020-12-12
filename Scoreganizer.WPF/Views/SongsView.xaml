@@ -24,8 +24,6 @@
                     <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewSheetMusicCommand}" >Play</Button>
                     <Button Width="100" Command="{Binding ViewOptionsCommand}">Options</Button>
                     <Button Width="100" Command="{Binding ViewOrganizerCommand}">Organize</Button>
-                    <Button Width="100" Command="{Binding MoveUpCommand}">Move up</Button>
-                    <Button Width="100" Command="{Binding MoveDownCommand}">Move down</Button>
                     <CheckBox IsChecked="{Binding PlayOnSelect}" Foreground="White">Play on select</CheckBox>
                 </UniformGrid>
                 <Button Width="100" Margin="100,0,0,0" Command="{Binding ExitAppCommand}">Exit app</Button>
@@ -36,7 +34,7 @@
                 Background="Transparent"
                 x:Name="SongsContainer" 
                 ItemsSource="{Binding Songs}"
-                SelectedItem="{Binding SelectedSong}"
+                SelectedItem="{Binding SelectedSong, Mode=TwoWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 dd:DragDrop.IsDragSource="True"

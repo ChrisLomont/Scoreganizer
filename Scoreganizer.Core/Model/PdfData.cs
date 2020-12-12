@@ -7,11 +7,13 @@ namespace Lomont.Scoreganizer.Core.Model
 {
     public class PdfToken
     {
-        public PdfToken(SongData song)
+        public PdfToken(SongData song, DataModel model)
         {
             Song = song;
+            Model = model;
         }
         public SongData Song { get; set; }
+        public DataModel Model { get; set; }
 
     }
 

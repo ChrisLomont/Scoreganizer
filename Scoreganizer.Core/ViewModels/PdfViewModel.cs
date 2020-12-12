@@ -10,6 +10,7 @@ using MvvmCross.ViewModels;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.Email.DataProvider;
 using Windows.Data.Pdf;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -21,6 +22,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
     {
         #region init and nav
         private PdfToken token;
+        DataModel model = null;
 
         private readonly IMvxNavigationService navigationService;
 
@@ -38,8 +40,14 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         {
             // receive and store the parameter here
             token = parameter;
+            model = token.Model;
             token.Song.StartView();
             LoadMediaFilenames(token.Song);
+            
+            MRU.Clear();
+
+            foreach (var sd in model.MostRecentlyPlayedSongs.UsedItems)
+                MRU.Add(sd);
         }
 
         public override async Task Initialize()
@@ -158,6 +166,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
         public MvxObservableCollection<Bitmap> Images { get;  } = new MvxObservableCollection<Bitmap>();
         public MvxObservableCollection<string> MediaFilenames { get; } = new MvxObservableCollection<string>();
+        public MvxObservableCollection<SongData> MRU { get; } = new MvxObservableCollection<SongData>();
 
         Bitmap leftView = null;
         public Bitmap LeftView

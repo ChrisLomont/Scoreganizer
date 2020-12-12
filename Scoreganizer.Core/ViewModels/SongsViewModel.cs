@@ -83,7 +83,9 @@ namespace Lomont.Scoreganizer.Core.ViewModels
                 return;
             }
 
-            var result = await navigationService.Navigate<PdfViewModel, PdfToken, PdfReturn>(new PdfToken(sf));
+            model.MostRecentlyPlayedSongs.Add(sf,model.Options.MostRecentlyPlayedSongsSize);
+
+            var result = await navigationService.Navigate<PdfViewModel, PdfToken, PdfReturn>(new PdfToken(sf,model));
             //Do something with the result MyReturnObject that you get back
         }
 
@@ -141,28 +143,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public IMvxCommand ViewSheetMusicCommand => new MvxCommand(ViewSheetMusic);
         public IMvxCommand ViewOptionsCommand => new MvxCommand(ViewOptions);
         public IMvxCommand ViewOrganizerCommand => new MvxCommand(ViewOrganizer);
-        public IMvxCommand MoveUpCommand => new MvxCommand(()=>MoveSelected(-1));
-        public IMvxCommand MoveDownCommand => new MvxCommand(()=>MoveSelected(1));
 
-        /// <summary>
-        /// Move selected song in list
-        /// </summary>
-        /// <param name="dir"></param>
-        void MoveSelected(int dir)
-        {
-            var s = SelectedSong;
-            if (s != null)
-            {
-                var index = Songs.IndexOf(s) + dir;
-                if (0 <= index && index < Songs.Count)
-                {
-                    Songs.Remove(s);
-                    Songs.Insert(index,s);
-                    SelectedSong = null;
-                    SelectedSong = s;
-                }
-            }
-        }
 
         bool playOnSelect = true;
 
@@ -180,7 +161,14 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             set
             {
                 if (SetProperty(ref selectedSong, value) && PlayOnSelect)
-                    ViewSheetMusic();
+                {
+                    if (SelectedSong != null)
+                    {
+                        // todo - does not work, set timer? SelectedSong = null; // on return, select none
+                        ViewSheetMusic();
+                    }
+
+                }
             }
         }
         void SongClick()
