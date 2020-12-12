@@ -46,6 +46,9 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         {
             await base.Initialize();
 
+            // how to render pages
+            RestoreViewStyle();
+
             // do the heavy work here
             await PdfToImages(token.Song.PdfName);
         }
@@ -84,17 +87,31 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             RightView = 0 <= right && right < max ? Images[right] : null;
         }
 
+        const string NoName = "<none>";
         void LoadMediaFilenames(SongData song)
         {
             MediaFilenames.Clear();
+            MediaFilenames.Add(NoName);
             foreach (var f in song.Files)
             {
                 if (IsMedia(f.Filename))
                     MediaFilenames.Add(f.Filename);
             }
 
-            if (MediaFilenames.Any())
+            if (!String.IsNullOrEmpty(song.SelectedMedia))
+            {
+                SelectedMediaFilename = song.SelectedMedia;
+                ShowMediaChecked = true;
+            }
+            else
+            {
+                ShowMediaChecked = false;
+                
+                // triggers setter
+                var s = song.SelectedMedia;
                 SelectedMediaFilename = MediaFilenames[0];
+                song.SelectedMedia = s;
+            }
         }
 
         bool showMediaChecked = false;
@@ -108,7 +125,22 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public string SelectedMediaFilename
         {
             get => selectedMediaFilename;
-            set => SetProperty(ref selectedMediaFilename, value);
+            set
+            {
+                if (SetProperty(ref selectedMediaFilename, value))
+                {
+                    if (SelectedMediaFilename == NoName)
+                    {
+                        token.Song.SelectedMedia = null;
+                        ShowMediaChecked = false;
+                    }
+                    else
+                    {
+                        token.Song.SelectedMedia = value;
+                        ShowMediaChecked = true;
+                    }
+                }
+            }
         }
         bool IsMedia(string filename)
         {
@@ -145,7 +177,33 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public int PageIndex
         {
             get => pageIndex;
-            set => SetProperty(ref pageIndex, value, UpdateViews);
+            set
+            {
+                if (SetProperty(ref pageIndex, value, UpdateViews))
+                    token.Song.PageToView = PageIndex;
+            }
+        }
+
+        void SetViewStyle()
+        {
+            var s = "";
+            if (Filtered) s += "F";
+            if (Inverted) s += "I";
+            if (Colorized) s += "C";
+            token.Song.ViewStyle = s;
+        }
+
+        bool triggerRender = true;
+        void RestoreViewStyle()
+        {
+            triggerRender = false;
+            if (token.Song.ViewStyle == null) 
+                SetViewStyle(); // get default
+            var s = token.Song.ViewStyle;
+            Filtered = s.Contains('F');
+            Colorized = s.Contains('C');
+            Inverted = s.Contains('I');
+            triggerRender = true;
         }
 
         bool filtered = true;
@@ -171,13 +229,18 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
         async void Process()
         {
+            if (!triggerRender)
+                return;
+            SetViewStyle();
             await PdfToImages(token.Song.PdfName);
         }
 
         async Task PdfToImages(string path)
         {
             Images.Clear();
-            PageIndex = 1;
+            var desiredPage = token.Song.PageToView;
+            PageIndex = 1; // changes setting
+            token.Song.PageToView = desiredPage;
 
             // see blog for details
             // had to add references to C:\Program Files (x86)\Windows Kits\10\UnionMetadata\winmd
@@ -211,7 +274,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
                     bmp = ImageFilters.Stretch(bmp);
                 }
 
-                if (Colorized)
+                if (colorized)
                     bmp = ImageFilters.Colorize(bmp);
                 if (inverted)
                     bmp = ImageFilters.Invert(bmp);
@@ -224,7 +287,11 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             }
             //PageIndex = 1;
             //UpdateViews();
+
+            if (PageIndex != 1)
+                PageIndex = desiredPage; // restore page - todo - jumps if moved during...
         }
+
 
     }
 }

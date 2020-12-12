@@ -15,6 +15,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows;
+using System.Windows.Xps;
 
 namespace Lomont.Scoreganizer.Core.ViewModels
 {
@@ -46,7 +47,11 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             //   Songs.Add,
             //   1
             //   );
+
+            // test C# 9.0
+
         }
+        // static bool IsLetterOrSeparator(this char c) => c is (>= 'a' and <= 'z') or (>= 'A' and <= 'Z') or '.' or ',';
 
         public override async Task Initialize()
         {
@@ -67,7 +72,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         }
 
 
-        public async void ViewPdf()
+        public async void ViewSheetMusic()
         {
             model.SaveSongs();
             var sf = SelectedSong;
@@ -133,7 +138,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public MvxObservableCollection<SongData> Songs { get; private set; } = new MvxObservableCollection<SongData>(); 
         public IMvxCommand CloseCommand => new MvxCommand(SomeMethodToClose);
         public IMvxCommand SongClickCommand => new MvxCommand(SongClick);
-        public IMvxCommand ViewPdfCommand => new MvxCommand(ViewPdf);
+        public IMvxCommand ViewSheetMusicCommand => new MvxCommand(ViewSheetMusic);
         public IMvxCommand ViewOptionsCommand => new MvxCommand(ViewOptions);
         public IMvxCommand ViewOrganizerCommand => new MvxCommand(ViewOrganizer);
         public IMvxCommand MoveUpCommand => new MvxCommand(()=>MoveSelected(-1));
@@ -159,17 +164,29 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             }
         }
 
+        bool playOnSelect = true;
+
+        public bool PlayOnSelect
+        {
+            get => playOnSelect;
+            set => SetProperty(ref playOnSelect, value);
+        }
+
         SongData selectedSong = null;
 
         public SongData SelectedSong
         {
             get => selectedSong;
-            set => SetProperty(ref selectedSong, value);
+            set
+            {
+                if (SetProperty(ref selectedSong, value) && PlayOnSelect)
+                    ViewSheetMusic();
+            }
         }
         void SongClick()
         {
             Debug.WriteLine($"Song {selectedSong.Title} clicked");
-            ViewPdf();
+            ViewSheetMusic();
         }
     }
 }

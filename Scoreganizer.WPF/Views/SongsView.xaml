@@ -21,11 +21,12 @@
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <UniformGrid Columns="6">
                     <TextBlock Text="Select song to play" Foreground="White" Margin="5"/>
-                    <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewPdfCommand}" >Play</Button>
+                    <Button Width="100" HorizontalAlignment="Center" Command="{Binding ViewSheetMusicCommand}" >Play</Button>
                     <Button Width="100" Command="{Binding ViewOptionsCommand}">Options</Button>
                     <Button Width="100" Command="{Binding ViewOrganizerCommand}">Organize</Button>
                     <Button Width="100" Command="{Binding MoveUpCommand}">Move up</Button>
                     <Button Width="100" Command="{Binding MoveDownCommand}">Move down</Button>
+                    <CheckBox IsChecked="{Binding PlayOnSelect}" Foreground="White">Play on select</CheckBox>
                 </UniformGrid>
                 <Button Width="100" Margin="100,0,0,0" Command="{Binding ExitAppCommand}">Exit app</Button>
             </StackPanel>

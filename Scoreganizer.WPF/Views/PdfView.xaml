@@ -63,7 +63,7 @@
                         </TextBlock>
                         <ComboBox ItemsSource="{Binding MediaFilenames}" SelectedItem="{Binding SelectedMediaFilename}"/>
                         <Slider Width="400" Value="{Binding PageIndex}" Minimum="1" Maximum="{Binding Images.Count}"/>
-                        <CheckBox IsChecked="{Binding ShowMediaChecked}" Foreground="White">Show media</CheckBox>
+                        <!--<CheckBox IsChecked="{Binding ShowMediaChecked}" Foreground="White">Show media</CheckBox>-->
                     </StackPanel>
                     <ScrollViewer DockPanel.Dock="Left" Width="1920"  Background="DarkGray">
                         <ItemsControl x:Name="PagesContainer" ItemsSource="{Binding Images}">

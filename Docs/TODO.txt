@@ -1,5 +1,4 @@
 
-sdsds
 TODO
 *  1. play music while viewing notes
 *  2. order songs
@@ -35,6 +34,20 @@ TODO
  32. Quiz mode - show notes, midi must play, chords, other stuff to practice
  33. guitar hero type practice
 * 34. Integrate drag+drop from https://github.com/punker76/gong-wpf-dragdrop
+35. On first start, go to options page, ask for path to music library
+36. Most recently used songs easily and quickly accessible from play page
+37. save more settings per song - such as playback stuff and options, what page on, etc.
+38. Many speed increases - especially slow on songs page
+39. annotations as 40. most recently used jump to from play screen
+40. jump back to 1st page quickly
+41. looping audio doesnt rewind correctly
+42. quicker to play music at bottoms
+43. order media by last selected
+44. remember page of sheet music on
+45. remember draw settings
+46. remember play song file
+47. default click on song is to play go to  play screen
+48. can crash if two parts of code trying to access scoreganizer save file at the same time
 
 
 END OF FILE

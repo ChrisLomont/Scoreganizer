@@ -84,6 +84,16 @@ namespace Lomont.Scoreganizer.Core.Model
             Files.Remove(file);
         }
 
+        // item to play in media on play screen. Null if no media open
+        public string SelectedMedia { get; set; } = null;
+
+        /// <summary>
+        /// Current page view
+        /// </summary>
+        public int PageToView { get; set; } = 1;
+
+        // specific viewing style for pdf
+        public string ViewStyle { get; set; } = null;
         public override string ToString()
         {
             return $"{Title} ({Files.Count})";
