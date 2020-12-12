@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Lomont.Scoreganizer.Core.ViewModels;
 using MvvmCross.ViewModels;
@@ -27,7 +29,7 @@ namespace Lomont.Scoreganizer.Core.Model
 
         public Options Options { get; } = new Options();
 
-        public string Version { get; } = "0.1"; // todo - make global, visible on UI
+        public string Version { get; } = "0.1"; // todo - make global, visible on UI - this also file version.. test changes
 
         // make backup for today
         public void Backup(string filename)
@@ -78,8 +80,23 @@ namespace Lomont.Scoreganizer.Core.Model
                 outfile.WriteLine($"ViewStyle: {song.ViewStyle}");
             }
 
+            foreach (var song in MostRecentlyPlayedSongs.UsedItems)
+                outfile.WriteLine($"MostRecentlyPlayedSong: {song.Title}"); // todo - maybe need better id than this
+
             outfile.WriteLine("End:"); // end of file
         }
+
+
+        /// <summary>
+        /// Find first song with this title. Return null if not found
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public SongData FindSongByTitle(string title)
+        {
+            return Songs.FirstOrDefault(s => s.Title == title);
+        }
+
 
         public void LoadSongsAsync()
         {
@@ -93,7 +110,8 @@ namespace Lomont.Scoreganizer.Core.Model
                 File.ReadLines(filename),
                 Version,
                 AddMessage,
-                Options.BasePath
+                Options.BasePath,
+                this
             );
 
             BackgroundLoader<SongData>.LoadItemsAsync(
@@ -107,12 +125,19 @@ namespace Lomont.Scoreganizer.Core.Model
 
         // stream of songs from list of string defining them
         // todo - move to song data?
-        static IEnumerable<SongData> GetSongs(IEnumerable<string> lines, string version, Action<string> errorMessage,
-            string basePath)
+        // todo - parse other items too...
+        static IEnumerable<SongData> GetSongs(
+            IEnumerable<string> lines, string version, Action<string> errorMessage,
+            string basePath,
+            DataModel model
+            )
         {
+            model.MostRecentlyPlayedSongs.UsedItems.Clear();
+
             SongData song = null; // current song
             SongData readySong = null; // song finished, ready to return it
             var done = false;
+            var mruSongs = new List<string>();
             foreach (var line in lines)
             {
                 var tokenEnd = line.IndexOf(":", StringComparison.Ordinal);
@@ -239,6 +264,10 @@ namespace Lomont.Scoreganizer.Core.Model
                         yield return readySong;
                     readySong = null;
                 }
+                else if (token == "MostRecentlyPlayedSong")
+                {
+                    mruSongs.Add(parameters);
+                }
                 else
                 {
                     // no match
@@ -248,11 +277,22 @@ namespace Lomont.Scoreganizer.Core.Model
                 if (done)
                     break;
             }
-
             // add final song
             if (song != null)
                 yield return song;
+
+            model.MostRecentlyPlayedSongs.UsedItems.Clear();
+            foreach (var title in mruSongs)
+            {
+                // find song
+                var song1 = model.FindSongByTitle(title);
+                if (song1 != null)
+                    model.MostRecentlyPlayedSongs.Add(song1);
+                else
+                    Trace.TraceError($"Cannot find most recent song title {title} in load");
+            }
         }
+
     }
 }
 

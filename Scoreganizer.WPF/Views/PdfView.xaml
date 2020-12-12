@@ -191,7 +191,7 @@
                     </ToggleButton>
                     <Popup IsOpen="{Binding IsChecked, ElementName=historyButton}" StaysOpen="False">
                         <StackPanel Background="Black">
-                            <ComboBox ItemsSource="{Binding MRU}" Width="200" />
+                            <ComboBox FontSize="30" ItemsSource="{Binding MRU}" Width="200" />
                         </StackPanel>
                     </Popup>
 
@@ -219,7 +219,7 @@
                     </ToggleButton>
                     <Popup IsOpen="{Binding IsChecked, ElementName=mediaButton}" StaysOpen="False">
                         <StackPanel Background="Black">
-                            <ComboBox ItemsSource="{Binding MediaFilenames}" SelectedItem="{Binding SelectedMediaFilename}"/>
+                            <ComboBox FontSize="30" ItemsSource="{Binding MediaFilenames}" SelectedItem="{Binding SelectedMediaFilename}"/>
                         </StackPanel>
                     </Popup>
 
