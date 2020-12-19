@@ -108,8 +108,11 @@ namespace Lomont.Scoreganizer.Core.Model
             if (!File.Exists(filename))
                 return; // todo - log error, or show message
 
+            // read file all at once, lets other uses happen async
+            var lines = File.ReadAllLines(filename);
+
             var songIter = GetSongs(
-                File.ReadLines(filename),
+                lines,
                 Version,
                 AddMessage,
                 Options.BasePath,
