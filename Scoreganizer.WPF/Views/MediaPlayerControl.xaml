@@ -43,11 +43,11 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" x:Name="VolumeSliderText"/>
                 <Slider  Grid.Row="1" Grid.Column="1" ValueChanged="VolumeSliderChanged" x:Name="VolumeSlider"  Minimum="0" Maximum="1" Value="1"/>
             </Grid>
+            <!--ScrubbingEnabled="True" : was causing MP3s to load slow or lock up -->
             <MediaElement 
-                MediaOpened="MediaOpenedEvent"
-                LoadedBehavior="Manual"
-                ScrubbingEnabled="True"
                 x:Name="MediaPlayer"
+                LoadedBehavior="Manual"
+                MediaOpened="MediaOpenedEvent"
             />
         </StackPanel>
     </Grid>
