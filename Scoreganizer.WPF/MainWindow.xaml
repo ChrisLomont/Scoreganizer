@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
     mc:Ignorable="d"
-    Title="Scoreganizer v0.2 Chris Lomont 2020" Height="800" Width="900"
+    Title="Scoreganizer v0.3 Chris Lomont 2020" Height="800" Width="900"
     >
     <!--WindowStyle="None"
     WindowState="Maximized"-->

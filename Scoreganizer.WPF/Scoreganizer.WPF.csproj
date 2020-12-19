@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>Lomont.Scoreganizer.WPF</RootNamespace>
+    <ApplicationIcon>ScoreganizerLogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
