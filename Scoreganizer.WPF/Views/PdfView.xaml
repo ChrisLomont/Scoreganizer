@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views1="clr-namespace:Lomont.Scoreganizer.WPF.Views"
-    xmlns:views2="clr-namespace:Lomont.Scoreganizer.WPF.Views"
     mc:Ignorable="d"
     d:DesignHeight="800" d:DesignWidth="700">
     <!--<views:MvxWpfView.Resources>
@@ -22,6 +21,7 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <views1:DurationConverter x:Key="DurationConverter"/>
+        <views1:FilenameConverter x:Key="FilenameConverter"/>
 
 
     </views:MvxWpfView.Resources>
@@ -61,7 +61,7 @@
             
             <!-- left panel -->
             <DockPanel >
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                     <!-- todo - go to page 1 -->
                     <Button Style="{StaticResource BlackButtonStyle}"
                             Command="{Binding FirstPageCommand}"
@@ -140,7 +140,7 @@
                     </Popup>
 
 
-                </StackPanel>
+                </WrapPanel>
                 <StackPanel 
                         VerticalAlignment="Top" Orientation="Horizontal"
                         DockPanel.Dock="Top"
@@ -156,8 +156,7 @@
                         </Canvas>
                     </Button>
                     </StackPanel>
-                <Button Command="{Binding PrevCommand}" Style="{StaticResource BlackButtonStyle}" 
-                        >
+                <Button Command="{Binding PrevCommand}" Style="{StaticResource BlackButtonStyle}">
                     <Canvas Width="32" Height="32">
                         <Viewbox Width="32" Height="32">
                             <Path Data="{StaticResource ChevronLeft}" Fill="{StaticResource DimFontColor}"/>
@@ -181,7 +180,7 @@
 
             <!-- right panel -->
             <DockPanel Grid.Column="3">
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
                     <ToggleButton x:Name="historyButton" Style="{StaticResource BlackToggleButtonStyle}">
                         <Canvas Width="32" Height="32">
                             <Viewbox Width="32" Height="32">
@@ -219,12 +218,18 @@
                     </ToggleButton>
                     <Popup IsOpen="{Binding IsChecked, ElementName=mediaButton}" StaysOpen="False">
                         <StackPanel Background="Black">
-                            <ComboBox FontSize="30" ItemsSource="{Binding MediaFilenames}" SelectedItem="{Binding SelectedMediaFilename}"/>
+                            <ComboBox FontSize="30" ItemsSource="{Binding MediaFilenames}" SelectedItem="{Binding SelectedMediaFilename}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource FilenameConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
                     </Popup>
 
 
-                </StackPanel>
+                </WrapPanel>
                 <views1:MediaPlayerControl 
                     DockPanel.Dock="Bottom"
                     MaxHeight="300" 
@@ -232,8 +237,7 @@
                     Visibility="{Binding ShowMediaChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                     />
 
-                <Button Command="{Binding NextCommand}" Style="{StaticResource BlackButtonStyle}"
-                        >
+                <Button Command="{Binding NextCommand}"  Style="{StaticResource BlackButtonStyle}">
                     <Canvas Width="32" Height="32">
                         <Viewbox Width="32" Height="32">
                             <Path Data="{StaticResource ChevronRight}" Fill="{StaticResource DimFontColor}"/>

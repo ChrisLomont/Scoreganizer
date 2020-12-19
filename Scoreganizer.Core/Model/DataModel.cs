@@ -105,6 +105,8 @@ namespace Lomont.Scoreganizer.Core.Model
             if (string.IsNullOrEmpty(Options.BasePath))
                 return;
             var filename = Path.Combine(Options.BasePath, Options.SaveFilename);
+            if (!File.Exists(filename))
+                return; // todo - log error, or show message
 
             var songIter = GetSongs(
                 File.ReadLines(filename),

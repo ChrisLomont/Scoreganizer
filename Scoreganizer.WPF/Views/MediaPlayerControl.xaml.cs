@@ -1,5 +1,7 @@
-﻿using System;
+﻿// #define MP3BUG -- helping find slow to play bug
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,8 +27,16 @@ namespace Lomont.Scoreganizer.WPF.Views
         public MediaPlayerControl()
         {
             InitializeComponent();
+#if !MP3BUG
             timer.Interval = TimeSpan.FromMilliseconds(200);
             timer.Tick += (o, e) => Tick();
+            MediaPlayer.MediaFailed += MediaFailedEvent;
+#endif
+        }
+
+        void MediaFailedEvent(object sender, ExceptionRoutedEventArgs e)
+        {
+            Trace.TraceError($"{e.ErrorException}");
         }
 
         DispatcherTimer timer = new DispatcherTimer();
@@ -41,6 +51,7 @@ namespace Lomont.Scoreganizer.WPF.Views
         }
         void Tick()
         {
+#if !MP3BUG
             if (MediaPlayer.NaturalDuration.HasTimeSpan)
             {
                 var dur = MediaPlayer.NaturalDuration.TimeSpan;
@@ -58,6 +69,7 @@ namespace Lomont.Scoreganizer.WPF.Views
 
                 DrawVolume();
             }
+#endif
         }
         void PositionSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -108,8 +120,11 @@ namespace Lomont.Scoreganizer.WPF.Views
             MediaPlayer.Source = new Uri(path);
             MediaPlayer.Play();
 
+#if !MP3BUG
             NowPlayingText.Text = Path.GetFileName(path);
             MediaPlayer.Position = startLoopTime;
+#endif
+
             //MediaPlayer.CanPause
             //MediaPlayer.HasAudio
             //MediaPlayer.HasVideo
@@ -139,6 +154,7 @@ namespace Lomont.Scoreganizer.WPF.Views
 
         void MediaOpenedEvent(object sender, RoutedEventArgs e)
         {
+#if !MP3BUG
             if (MediaPlayer.NaturalDuration.HasTimeSpan)
             {
                 var ts = MediaPlayer.NaturalDuration.TimeSpan;
@@ -147,6 +163,7 @@ namespace Lomont.Scoreganizer.WPF.Views
                 PositionSlider.LargeChange = Math.Min(10, ts.Seconds / 10);
             }
             timer.Start();
+#endif
         }
 
         bool isDragging = false;
@@ -161,7 +178,7 @@ namespace Lomont.Scoreganizer.WPF.Views
             MediaPlayer.Position = TimeSpan.FromSeconds(PositionSlider.Value);
         }
 
-        #region Looping
+#region Looping
 
         TimeSpan startLoopTime = TimeSpan.Zero;
         TimeSpan endLoopTime = TimeSpan.FromDays(100);
@@ -192,7 +209,7 @@ namespace Lomont.Scoreganizer.WPF.Views
                 endLoopCheckbox.Content = "End loop";
             }
         }
-        #endregion
+#endregion
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -45,9 +46,16 @@ namespace Lomont.Scoreganizer.Core.Model
         }
         void Save()
         {
-            var fname = GetFilename();
-            using (var f = File.CreateText(fname))
-                f.WriteLine($"BasePath: {BasePath}");
+            try
+            {
+                var fname = GetFilename();
+                using (var f = File.CreateText(fname))
+                    f.WriteLine($"BasePath: {BasePath}");
+            }
+            catch (Exception ex)
+            {
+                //Trace.TraceError("");
+            }
         }
 
         void Load()

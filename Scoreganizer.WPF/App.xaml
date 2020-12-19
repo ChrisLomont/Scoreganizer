@@ -24,6 +24,7 @@
 
         <Style x:Key="BlackButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="Black"></Setter>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -48,6 +49,7 @@
         <!-- todo - merge button styles somehow -->
         <Style x:Key="BlackToggleButtonStyle" TargetType="ToggleButton">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="Black"></Setter>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
