@@ -9,10 +9,13 @@
     <Grid>
         <StackPanel DockPanel.Dock="Bottom" Background="White" >
             <UniformGrid Columns="4" >
-                <Button Click="PlayButtonClicked" >Play</Button>
-                <Button Click="StopButtonClicked" >Stop</Button>
-                <Button Click="RewindButtonClicked" >Rewind</Button>
-                <Button Click="PauseButtonClicked" >Pause</Button>
+                <Button Height="40" Click="PlayButtonClicked" >Play</Button>
+                <Button Height="40" Click="StopButtonClicked" >Stop</Button>
+                <Button Height="40" Click="RewindButtonClicked" >Rewind</Button>
+                <Button Height="40" Click="PauseButtonClicked" >Pause</Button>
+                <Button Height="40" Click="FasterButtonClicked" >Faster</Button>
+                <Button Height="40" Click="SlowerButtonClicked" >Slower</Button>
+                <TextBlock VerticalAlignment="Center" Margin="5,0" x:Name="PlaybackSpeedText" />
             </UniformGrid>
             <UniformGrid Columns="2">
                 <CheckBox Name="startLoopCheckbox" Checked="StartLoopCheckboxChecked" Unchecked="StartLoopCheckboxChecked">

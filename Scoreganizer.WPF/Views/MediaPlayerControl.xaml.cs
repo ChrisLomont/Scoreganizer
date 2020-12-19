@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -111,6 +112,31 @@ namespace Lomont.Scoreganizer.WPF.Views
             }
         }
 
+        double[] speeds = new[] {0.125, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0, 4.0, 5.0, 10.0};
+
+        double NextSpeed(double current, int dir)
+        {
+            double tolerance = 0.001;
+            int i = 0;
+            while (i < speeds.Length && tolerance < Math.Abs(speeds[i] - current) )
+                ++i;
+            i += dir;
+            if (i >= speeds.Length)
+                i = speeds.Length - 1;
+            if (i < 0) i = 0;
+            return speeds[i];
+        }
+
+        void FasterButtonClicked(object sender, RoutedEventArgs e)
+        {
+            MediaPlayer.SpeedRatio = NextSpeed(MediaPlayer.SpeedRatio, 1);
+            PlaybackSpeedText.Text = $"{MediaPlayer.SpeedRatio:F3}";
+        }
+        void SlowerButtonClicked(object sender, RoutedEventArgs e)
+        {
+            MediaPlayer.SpeedRatio = NextSpeed(MediaPlayer.SpeedRatio, -1);
+            PlaybackSpeedText.Text = $"{MediaPlayer.SpeedRatio:F3}";
+        }
 
         void PlayButtonClicked(object sender, RoutedEventArgs e) 
         {
