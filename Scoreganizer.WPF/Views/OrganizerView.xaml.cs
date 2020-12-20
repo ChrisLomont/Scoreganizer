@@ -17,5 +17,11 @@ namespace Lomont.Scoreganizer.WPF.Views
         {
             InitializeComponent();
         }
+
+        void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (DataContext is OrganizerViewModel m)
+                m.SelectedFileNode = e.NewValue as OrganizerViewModel.FileNode;
+        }
     }
 }

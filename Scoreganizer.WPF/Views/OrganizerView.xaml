@@ -40,6 +40,10 @@
                     <TextBlock Text="{Binding Songs.Count, StringFormat={}{0} songs}"/>
                 </GroupBox.Header>
                 <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                        <TextBlock Margin="0,0,5,0">Filter:</TextBlock>
+                        <TextBox Text="{Binding Path=SongFilter, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                    </StackPanel>
                     <UniformGrid DockPanel.Dock="Bottom" Columns="5">
                         <TextBox ToolTip="Title" Text="{Binding SongName}"/>
                         <Button Command="{Binding AddSongCommand}">Add</Button>
@@ -67,7 +71,34 @@
                         <Button Command="{Binding RemoveFromSongCommand}">Remove from song</Button>
                         <Button Command="{Binding MatchFilesCommand}">Compute matches</Button>
                     </UniformGrid>
-                    <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
+                    <UniformGrid Columns="2">
+                        <TreeView ItemsSource="{Binding Nodes}" SelectedItemChanged="TreeView_OnSelectedItemChanged" >
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <!--Text="{Binding Name}"-->
+                                    <TextBlock ToolTip="{Binding File.Hash}" >
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}">
+                                                <!--<Binding Path="File"/>-->
+                                                <Binding Path="Name"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+
+                                    </TextBlock>
+
+                                    <!--<TextBlock ToolTip="{Binding FileData.Hash}">
+                                        <TextBlock.Text>
+                                            <MultiBinding  StringFormat="{}({0}) {1}">
+                                                <Binding Path="UseCount"/>
+                                                <Binding Path="Name"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>-->
+
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                        <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock ToolTip="{Binding FileData.Hash}">
@@ -81,6 +112,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    </UniformGrid>
                 </DockPanel>
             </GroupBox>
         </UniformGrid>

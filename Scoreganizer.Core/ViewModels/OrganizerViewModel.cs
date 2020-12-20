@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using Lomont.Scoreganizer.Core.Model;
 using MvvmCross;
 using MvvmCross.Base;
@@ -23,10 +26,30 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             this.navigationService = navigationService;
         }
 
+        bool FilterSongs(object obj)
+        {
+            if (String.IsNullOrEmpty(songFilter))
+                return true;
+            if (obj is SongData s)
+            {
+                if (s.Title.Contains(songFilter) || s.Artist.Contains(songFilter))
+                    return true;
+                return false;
+            }
+            return true; 
+        }
+
+        ICollectionView songView;
+
         public override void Prepare(DataModel data)
         {
             model = data;
             Songs = model.Songs;
+
+            // prepare filter
+            songView = CollectionViewSource.GetDefaultView(Songs);
+            songView.Filter = FilterSongs;
+
             Files.Clear();
             foreach (var fd in model.Files)
                 Files.Add(new FileView(fd));
@@ -64,11 +87,23 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public IMvxCommand ScanFilesCommand => new MvxCommand(ScanFiles);
         public IMvxCommand MatchFilesCommand => new MvxCommand(MatchFiles);
 
+        // node in file system
+        public class FileNode : MvxViewModel
+        {
+            public FileData File { get; set; } = null;
+            public bool IsFile { get; set; }
+            public string Name { get; set; }
+            public MvxObservableCollection<FileNode> Children { get; } = new MvxObservableCollection<FileNode>();
+        }
+
+        public MvxObservableCollection<FileNode> Nodes { get; } = new MvxObservableCollection<FileNode>();
+
 
         DataModel model = null;
         public MvxObservableCollection<FileView> Files { get; } = new MvxObservableCollection<FileView>();
         public MvxObservableCollection<SongData> Songs { get; private set;  }
 
+        // view for a song
         public class FileView : MvxViewModel
         {
             public FileView(FileData fileData)
@@ -119,7 +154,9 @@ namespace Lomont.Scoreganizer.Core.ViewModels
                 return;
             }
 
-            Songs.Add(new SongData(name));
+            var s = new SongData(name);
+            Songs.Add(s);
+            SelectedSong = s;
         }
 
         void DeleteSong()
@@ -157,7 +194,6 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 #else
             model.LoadSongsAsync();
 #endif
-
         }
 
         void SaveSongs()
@@ -165,17 +201,24 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             model.SaveSongs();
         }
 
+        FileData GetSelectedFile()
+        {
+            if (SelectedFile != null)
+                return SelectedFile.FileData;
+            return SelectedFileNode?.File;
+        }
+
         void AddToSong()
         {
             var song = SelectedSong;
-            var file = SelectedFile;
+            var file = GetSelectedFile();
             if (song == null || file == null)
             {
                 model.AddMessage("Must have song and file(s) selected to add files");
                 return;
             }
 
-            song.AddFile(file.FileData);
+            song.AddFile(file);
 
             // trigger repaint, restore selection
             var index = Songs.IndexOf(song);
@@ -187,14 +230,14 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         void RemoveFromSong()
         {
             var song = SelectedSong;
-            var file = SelectedFile;
+            var file = GetSelectedFile();
             if (song == null || file == null)
             {
                 model.AddMessage("Must have song and file(s) selected to remove files");
                 return;
             }
 
-            song.RemoveFile(file.FileData);
+            song.RemoveFile(file);
 
             // trigger repaint
             var index = Songs.IndexOf(song);
@@ -221,12 +264,40 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             set => SetProperty(ref selectedSong, value);
         }
 
+        string songFilter = "";
+
+        public string SongFilter
+        {
+            get => songFilter;
+            set
+            {
+                if (SetProperty(ref songFilter, value))
+                    songView.Refresh();
+            }
+        }
+
         FileView selectedFile = null;
 
         public FileView SelectedFile
         {
             get => selectedFile;
-            set => SetProperty(ref selectedFile, value);
+            set
+            {
+                if (SetProperty(ref selectedFile, value))
+                    SelectedFileNode = null;
+            }
+        }
+
+        FileNode selectedFileNode = null;
+
+        public FileNode SelectedFileNode
+        {
+            get => selectedFileNode;
+            set
+            {
+                if (SetProperty(ref selectedFileNode, value))
+                    SelectedFile = null;
+            }
         }
 
         /// <summary>
@@ -235,11 +306,56 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public void ScanFiles()
         {
             Files.Clear();
+            Nodes.Clear();
 
             BackgroundLoader<FileData>.LoadItemsAsync(
                 FileScanner.ScanEnum(model.Options.BasePath),
-                fd=>Files.Add(new FileView(fd))
+                fd=>
+                {
+                    Files.Add(new FileView(fd));
+                    InsertNode(fd);
+                }
             );
         }
+
+         /* todo
+        * 1. bind to tree selected file
+        2. clean up item names in this file
+        3. Tree view of file better - match other view, tooltip, etc.
+        * 4. Add FileData to leaf nodes in file tree
+         */
+        void InsertNode(FileData fd)
+        {
+            // fd.Filename
+            var pieces = fd.Filename.Split(new [] { Path.DirectorySeparatorChar.ToString() }, StringSplitOptions.RemoveEmptyEntries);
+            FileNode cur = null;
+            for (var i = 0; i < pieces.Length; ++i)
+            {
+                var name = pieces[i];
+                var isFile = i == pieces.Length - 1;
+
+                // find a node
+                var node = cur == null 
+                    ? Nodes.FirstOrDefault(f => f.Name == name)
+                    : cur.Children.FirstOrDefault(f => f.Name == name);
+                if (node == null)
+                { // not present, add new
+                    node = new FileNode{Name = name, IsFile = isFile};
+                    if (isFile)
+                        node.File = fd;
+ 
+                    if (cur == null)
+                        Nodes.Add(node);
+                    else
+                        cur.Children.Add(node);
+                    cur = node;
+                }
+                else
+                { // found it, continue down tree
+                    cur = node;
+                }
+            }
+        }
+
     }
 }
