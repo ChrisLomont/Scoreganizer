@@ -75,8 +75,11 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
             model.MostRecentlyPlayedSongs.Add(sf,model.Options.MostRecentlyPlayedSongsSize);
 
+
             var result = await navigationService.Navigate<PdfViewModel, PdfToken, PdfReturn>(new PdfToken(sf,model));
             //Do something with the result MyReturnObject that you get back
+            
+            SelectedSong = null; // allows selection of same song again, else cannot
         }
 
         public async void ViewOptions()

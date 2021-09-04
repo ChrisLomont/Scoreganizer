@@ -76,6 +76,28 @@ X = canceled or now irrelevant
 71. Save media player settings with song: loop, speed, more?
 * 72. needs app icon
 73. Closing while saving loses Scoreganizer info... make some safer save solution....
+74. (and lower from 9/4/2021) - allow single page music to see more video
+75. allow resizing video
+76. much nicer playabck of video:
+77. Page selector more intuitive, select page to pick, page # over page
+78. fix L&R button same ht on screen
+79. nicer MRU popup and selector - add images, etc.
+80. Better volume control on music, time slider
+* 81. better back from play select - allow selecting the same song again
+82. nicer menu for all
+83. jump to last page?
+84. page 1 or 2 (or more?) showing
+85. fix page misordering when changing filtering/color modes
+86. music playlist to listen to?
+87. annotations on items? draw on screen?
+88. links to videos, audio, etc. allow links with songs
+
+
+# selected to work on 9/4/2021 weekend
+ - nicer video - share with music, resize, easier volume and position scroller, etc.
+ * - select same song when moving back
+ - fix page misordering
+
 
 
 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pencil-ruler" class="svg-inline--fa fa-pencil-ruler fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M109.46 244.04l134.58-134.56-44.12-44.12-61.68 61.68a7.919 7.919 0 0 1-11.21 0l-11.21-11.21c-3.1-3.1-3.1-8.12 0-11.21l61.68-61.68-33.64-33.65C131.47-3.1 111.39-3.1 99 9.29L9.29 99c-12.38 12.39-12.39 32.47 0 44.86l100.17 100.18zm388.47-116.8c18.76-18.76 18.75-49.17 0-67.93l-45.25-45.25c-18.76-18.76-49.18-18.76-67.95 0l-46.02 46.01 113.2 113.2 46.02-46.03zM316.08 82.71l-297 296.96L.32 487.11c-2.53 14.49 10.09 27.11 24.59 24.56l107.45-18.84L429.28 195.9 316.08 82.71zm186.63 285.43l-33.64-33.64-61.68 61.68c-3.1 3.1-8.12 3.1-11.21 0l-11.21-11.21c-3.09-3.1-3.09-8.12 0-11.21l61.68-61.68-44.14-44.14L267.93 402.5l100.21 100.2c12.39 12.39 32.47 12.39 44.86 0l89.71-89.7c12.39-12.39 12.39-32.47 0-44.86z"></path></svg>
