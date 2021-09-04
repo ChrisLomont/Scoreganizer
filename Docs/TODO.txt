@@ -78,7 +78,7 @@ X = canceled or now irrelevant
 73. Closing while saving loses Scoreganizer info... make some safer save solution....
 74. (and lower from 9/4/2021) - allow single page music to see more video
 75. allow resizing video
-76. much nicer playabck of video:
+76. much nicer playback of video:
 77. Page selector more intuitive, select page to pick, page # over page
 78. fix L&R button same ht on screen
 79. nicer MRU popup and selector - add images, etc.
@@ -87,16 +87,16 @@ X = canceled or now irrelevant
 82. nicer menu for all
 83. jump to last page?
 84. page 1 or 2 (or more?) showing
-85. fix page misordering when changing filtering/color modes
+* 85. fix page misordering when changing filtering/color modes
 86. music playlist to listen to?
 87. annotations on items? draw on screen?
 88. links to videos, audio, etc. allow links with songs
 
 
 # selected to work on 9/4/2021 weekend
- - nicer video - share with music, resize, easier volume and position scroller, etc.
  * - select same song when moving back
- - fix page misordering
+ * - fix page misordering
+ - nicer video - share with music, resize, easier volume and position scroller, etc.
 
 
 

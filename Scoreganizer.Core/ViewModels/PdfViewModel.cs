@@ -11,6 +11,7 @@ using MvvmCross.ViewModels;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Windows.ApplicationModel.Email.DataProvider;
 using Windows.Data.Pdf;
 using Windows.Storage;
@@ -59,7 +60,7 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             RestoreViewStyle();
 
             // do the heavy work here
-            await PdfToImages(token.Song.PdfName);
+            await PdfHelper();
         }
 
         public async void SomeMethodToClose()
@@ -226,30 +227,66 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public bool Filtered
         {
             get => filtered;
-            set => SetProperty(ref filtered, value, Process);
+            set => SetProperty(ref filtered, value, UpdateImageFormatting);
         }
 
         bool inverted = false;
         public bool Inverted
         {
             get => inverted;
-            set => SetProperty(ref inverted, value, Process);
+            set => SetProperty(ref inverted, value, UpdateImageFormatting);
         }
 
         bool colorized = false;
         public bool Colorized
         {
             get => colorized;
-            set => SetProperty(ref colorized, value, Process);
+            set => SetProperty(ref colorized, value, UpdateImageFormatting);
         }
 
-        async void Process()
+        /// <summary>
+        /// Apply any color filtering to PDF images
+        /// Can be called while previous one is still running
+        /// </summary>
+        async void UpdateImageFormatting()
         {
+
             if (!triggerRender)
                 return;
             SetViewStyle();
-            await PdfToImages(token.Song.PdfName);
+
+            await PdfHelper();
         }
+
+        bool isRunning = false, requestStop = false;
+
+        async Task PdfHelper()
+        {
+
+            try
+            {
+                // cause any running ones to stop first
+                while (isRunning)
+                {
+                    Interlocked.MemoryBarrier(); // make sure above happens
+                    requestStop = true;
+                    await Task.Delay(100); // allow other work to continue
+                }
+
+                requestStop = false; 
+                isRunning = true;
+                Interlocked.MemoryBarrier(); // make sure above happens
+                await PdfToImages(token.Song.PdfName);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                isRunning = false;
+            }
+        }
+
 
         async Task PdfToImages(string path)
         {
@@ -269,7 +306,8 @@ namespace Lomont.Scoreganizer.Core.ViewModels
             // Convert each page into a Bitmap
             for (var index = 0U; index < pdf.PageCount; ++index)
             {
-
+                if (requestStop)
+                    return;
                 using var page = pdf.GetPage(index);
 
                 using var stream = new InMemoryRandomAccessStream();
@@ -294,8 +332,8 @@ namespace Lomont.Scoreganizer.Core.ViewModels
                     var t3 = s.ElapsedTicks;
                     s.Stop();
                     var ms1 = t1 * 1000.0 / Stopwatch.Frequency;
-                    var ms2 = (t2-t1) * 1000.0 / Stopwatch.Frequency;
-                    var ms3 = (t3-t2) * 1000.0 / Stopwatch.Frequency;
+                    var ms2 = (t2 - t1) * 1000.0 / Stopwatch.Frequency;
+                    var ms3 = (t3 - t2) * 1000.0 / Stopwatch.Frequency;
                     var ms = t3 * 1000.0 / Stopwatch.Frequency;
                     Trace.WriteLine($"Image {ms:F3} ms: BW {ms1:F3}, Sharp {ms2:F3}, Stretch {ms3:F3}");
                 }
