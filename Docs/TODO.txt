@@ -51,7 +51,7 @@ X = canceled or now irrelevant
 * 46. remember play song file
 * 47. default click on song is to play go to  play screen
 * 48. can crash if two parts of code trying to access scoreganizer save file at the same time
-49. JSON file save format
+49. JSON file save format - maybe LiteDB or something?
 50. better fullscreen use, max/min, always on top, etc..
 * 51. add ref to Font Awesome for interface SVGs per their license
 52. minimal playback interface button (hides all UI, just touch spots)
@@ -69,15 +69,15 @@ X = canceled or now irrelevant
 * 64. left most icon on right most pane on actual piano hidden by wide sheet music - address overlay, wrapping, or something
 65. ensure left/right chevrons on play screen same horizontal position
 * 66. MP3 not playing (todo - plays, after delay equal to length of song (?))
-67. Ability for one page view, on left, and video large on right, or so
+* 67. Ability for one page view, on left, and video large on right, or so
 * 68. Buttons click poorly, not sure why, sometimes don't click. Add visual to template to see click
 69. Clean Xaml - pull things to higher, centralized resource locations
 70. Add message view, use Trace. throughout code
 71. Save media player settings with song: loop, speed, more?
 * 72. needs app icon
-73. Closing while saving loses Scoreganizer info... make some safer save solution....
+* 73. Closing while saving loses Scoreganizer info... make some safer save solution....
 74. (and lower from 9/4/2021) - allow single page music to see more video
-75. allow resizing video
+* 75. allow resizing video
 76. much nicer playback of video:
 77. Page selector more intuitive, select page to pick, page # over page
 78. fix L&R button same ht on screen
@@ -86,18 +86,23 @@ X = canceled or now irrelevant
 * 81. better back from play select - allow selecting the same song again
 82. nicer menu for all
 83. jump to last page?
-84. page 1 or 2 (or more?) showing
+* 84. page 1 or 2 (or more?) showing
 * 85. fix page misordering when changing filtering/color modes
 86. music playlist to listen to?
 87. annotations on items? draw on screen?
 88. links to videos, audio, etc. allow links with songs
 * 89. likely bug? closing without all loaded only saves out what has been loaded, loses file :(
+90. History view - stats on what's played, when, hoiw long, etc.
+91. messages log, capture all trace messages, use them more
+92. Speed up load - lots of slow in hashing, some in image caching
+93. Show which songs have what: PDF, mp3, mp4, jpeg, etc.
+
 
 # selected to work on 9/4/2021 weekend
  * - select same song when moving back
  * - fix page misordering
  * - fix file corruption bug:
- - nicer video - share with music, resize, easier volume and position scroller, etc.
+ * - nicer video - share with music, resize, easier volume and position scroller, etc.
 
 
 

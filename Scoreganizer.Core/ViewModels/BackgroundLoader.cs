@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using MvvmCross;
 using MvvmCross.Base;
@@ -14,25 +15,45 @@ namespace Lomont.Scoreganizer.Core.ViewModels
     /// <typeparam name="T"></typeparam>
     static class BackgroundLoader<T>
     {
+        static void ExceptionCalled(Exception ex)
+        {
+            Trace.TraceError($"EXCEPTION: {ex}");
+        }
         public static void LoadItemsAsync(IEnumerable<T> items, Action<T> itemAction, int groupSize = 10)
         {
             void Publish(Queue<T> files)
             {
-                while (files.TryDequeue(out var fd))
-                    PerformUiAction(()=>itemAction(fd));
+                try
+                {
+                    while (files.TryDequeue(out var fd))
+                        PerformUiAction(() => itemAction(fd));
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCalled(ex);
+                    throw;
+                }
             }
 
             Task.Run(() =>
             {
-                var queue = new Queue<T>();
-                foreach (var item in items)
+                try
                 {
-                    queue.Enqueue(item);
-                    if (queue.Count >= groupSize)
-                        Publish(queue);
-                }
+                    var queue = new Queue<T>();
+                    foreach (var item in items)
+                    {
+                        queue.Enqueue(item);
+                        if (queue.Count >= groupSize)
+                            Publish(queue);
+                    }
 
-                Publish(queue);
+                    Publish(queue);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionCalled(ex);
+                    throw;
+                }
             });
         }
         public static async void PerformUiAction(Action action)
