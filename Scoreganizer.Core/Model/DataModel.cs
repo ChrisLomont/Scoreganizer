@@ -100,7 +100,6 @@ namespace Lomont.Scoreganizer.Core.Model
 
         public void LoadSongsAsync()
         {
-            wasLoaded = true; // load was attempted
             Songs.Clear();
             if (string.IsNullOrEmpty(Options.BasePath))
                 return;
@@ -257,11 +256,10 @@ namespace Lomont.Scoreganizer.Core.Model
                     CheckInt("PlayCounter", n => song.PlayCounter = n) ||
                     CheckInt("Rating", n => song.Rating = n) ||
                     CheckInt("BeatsPerMinute", n => song.BeatsPerMinute = n) ||
-
                     CheckString("SelectedMedia", p => song.SelectedMedia = p) ||
                     CheckString("ViewStyle", p => song.ViewStyle = p) ||
                     CheckInt("PageToView", n => song.PageToView = n) ||
-                CheckEnd()
+                    CheckEnd()
                 )
                 {
                     // ok
@@ -296,6 +294,10 @@ namespace Lomont.Scoreganizer.Core.Model
                 else
                     Trace.TraceError($"Cannot find most recent song title {title} in load");
             }
+
+            // this allows saving to happen
+            model.wasLoaded = true; 
+
         }
 
     }

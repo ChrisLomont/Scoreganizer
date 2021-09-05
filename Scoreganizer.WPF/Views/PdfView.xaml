@@ -47,13 +47,13 @@
 
             <!--
             needs (Font Awesome symbol)
-            1. Back to prev screen (Chevron Circle)
+            * 1. Back to prev screen (Chevron Circle)
             2. draw: invert, filter, colorize (pencil-ruler)
             * 3. Current page and page selection (sticky-note)
             * 4. quick page 1 (backward)
             * 5. select media if present: none, file, shows media player (file-audio)
             6. most recently used popup/list (history)
-            7. page turning (chevron-left, chevron-right)
+            * 7. page turning (chevron-left, chevron-right)
             
             todo - put this popup stuff elsewhere, cleaner
             https://stackoverflow.com/questions/361209/how-to-open-a-wpf-popup-when-another-control-is-clicked-using-xaml-markup-only            

@@ -91,11 +91,12 @@ X = canceled or now irrelevant
 86. music playlist to listen to?
 87. annotations on items? draw on screen?
 88. links to videos, audio, etc. allow links with songs
-
+* 89. likely bug? closing without all loaded only saves out what has been loaded, loses file :(
 
 # selected to work on 9/4/2021 weekend
  * - select same song when moving back
  * - fix page misordering
+ * - fix file corruption bug:
  - nicer video - share with music, resize, easier volume and position scroller, etc.
 
 
