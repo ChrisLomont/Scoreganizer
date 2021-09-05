@@ -32,7 +32,18 @@
         </DockPanel.Resources>
         <Grid >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition>
+                    <ColumnDefinition.Style>
+                        <Style TargetType="ColumnDefinition">
+                            <Setter Property="Width" Value="*"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DoublePageView}" Value="False">
+                                    <Setter Property="Width" Value="100"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ColumnDefinition.Style>
+                </ColumnDefinition>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -172,6 +183,7 @@
                 Margin="0,4"
             />
             <Image
+                Visibility="{Binding DoublePageView, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Grid.Column="2"
                 Source="{Binding RightView,Converter={StaticResource BitmapConverter}}"
                 HorizontalAlignment="Center"
@@ -181,6 +193,14 @@
             <!-- right panel -->
             <DockPanel Grid.Column="3">
                 <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ToggleButton IsChecked="{Binding DoublePageView}" Style="{StaticResource BlackToggleButtonStyle}">
+                        <Canvas Width="32" Height="32">
+                            <Viewbox Width="32" Height="32">
+                                <Path Data="{StaticResource Columns}" Fill="{StaticResource DimFontColor}"/>
+                            </Viewbox>
+                        </Canvas>
+                    </ToggleButton>
+
                     <ToggleButton x:Name="historyButton" Style="{StaticResource BlackToggleButtonStyle}">
                         <Canvas Width="32" Height="32">
                             <Viewbox Width="32" Height="32">
@@ -232,10 +252,21 @@
                 </WrapPanel>
                 <views1:MediaPlayerControl 
                     DockPanel.Dock="Bottom"
-                    MaxHeight="300" 
                     Filepath="{Binding SelectedMediaFilename}"
                     Visibility="{Binding ShowMediaChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    />
+                    >
+                    <views1:MediaPlayerControl.Style>
+                        <Style TargetType="views1:MediaPlayerControl">
+                            <Setter Property="Width" Value="Auto"/>
+                            <Setter Property="Height" Value="300"/>
+                            <Style.Triggers>
+                            <DataTrigger Binding="{Binding DoublePageView}" Value="False">
+                                <Setter Property="Height" Value="Auto"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        </Style>
+                    </views1:MediaPlayerControl.Style>
+                </views1:MediaPlayerControl>
 
                 <Button Command="{Binding NextCommand}"  Style="{StaticResource BlackButtonStyle}">
                     <Canvas Width="32" Height="32">

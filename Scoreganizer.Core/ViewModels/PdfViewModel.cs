@@ -76,6 +76,12 @@ namespace Lomont.Scoreganizer.Core.ViewModels
         public IMvxCommand PrevCommand => new MvxCommand(PrevPage);
         public IMvxCommand FirstPageCommand => new MvxCommand(FirstPage);
 
+        bool doublePageView = true;
+        public bool DoublePageView
+        {
+            get => doublePageView;
+            set => SetProperty(ref doublePageView, value);
+        }
         void FirstPage()
         {
             PageIndex = 1;
@@ -83,14 +89,16 @@ namespace Lomont.Scoreganizer.Core.ViewModels
 
         void NextPage()
         {
-            if (PageIndex < Images.Count-1)
-                PageIndex+=2;
+            if (PageIndex < Images.Count - 1)
+            {
+                PageIndex += doublePageView?2:1;
+            }
         }
 
         void PrevPage()
         {
             if (2 < PageIndex)
-                PageIndex-=2;
+                PageIndex-= doublePageView ? 2 : 1;
         }
 
         void UpdateViews()
