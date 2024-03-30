@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Xps;
 using Lomont.Scoreganizer.Core.ViewModels;
 using MvvmCross.ViewModels;
 
@@ -201,9 +202,17 @@ namespace Lomont.Scoreganizer.Core.Model
                     var hash = parameters.Substring(0, 64); // length
                     var fn = parameters.Substring(65);
                     fn = Path.Combine(basePath, fn.Substring(1));
-                    var file = new FileData(fn) {Hash = hash};
+                    try
+                    {
+                        var file = new FileData(fn) { Hash = hash };
 
-                    song.Files.Add(file);
+                        song.Files.Add(file);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+
                     return true;
                 }
 

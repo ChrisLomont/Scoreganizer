@@ -95,6 +95,19 @@ You can also add mp3 and mp4 video files to have recordings of your music. You c
 You can scan sheet music. Name the pages page01.png (or jpg..), page02.png, .... pageNN.png. Select them in Windows Explorer. Click on the first one (TODO - check how to do this cleanly), then right click and select print to PDF (built in Windows 10). Use this PDF.
 
 
+## Building
+This uses:
+
+https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/wpf-plus-winappsdk
+
+OBSOLETE:
+https://blogs.u2u.be/lander/post/2018/01/23/Creating-a-PDF-Viewer-in-WPF-using-Windows-10-APIs
+https://blogs.windows.com/windowsdeveloper/2017/01/25/calling-windows-10-apis-desktop-application/
+see blog for details
+had to add references to C:\Program Files (x86)\Windows Kits\10\UnionMetadata\winmd
+and C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5". 
+Add System.Runtime.WindowsRuntime.dll 
+
 
 
 
